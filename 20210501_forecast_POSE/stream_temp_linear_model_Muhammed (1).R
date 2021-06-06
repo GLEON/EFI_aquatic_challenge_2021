@@ -1,7 +1,7 @@
 library(ggplot2)
 library(lubridate)
 library(hydroGOF)
-my.df <-read.table("C:\\Users\\shikhani\\Documents\\EFI_aquatic_challenge_2021-main/Inflow_temp_air_temp_rolling_EFI.csv", sep = ",", header = T, stringsAsFactors = F)[-c(1:210),]
+my.df <-read.table("20210501_forecast_POSE/Inflow_temp_air_temp_rolling_EFI.csv", sep = ",", header = T, stringsAsFactors = F)[-c(1:210),]
 
 my.df$inflow_temp[which(my.df$inflow_temp < 0)] <- 0
 
@@ -12,7 +12,7 @@ my.df$doy <- lubridate::yday(my.df$date)
 rmse.df <- data.frame(lm=NA)
 for (j in 1:7){
   # model 1 GAUSSIAN ----
-  # first attempt basic linear model
+  # first attempt basic linear modeljavascript:;
 
   my.df.train <- my.df[which(my.df$date < lubridate::ymd("2019-01-01")),c(1,2,j+2)]
   my.df.vald <- my.df[-which(my.df$date < lubridate::ymd("2019-01-01")),c(1,2,j+2)]
