@@ -63,16 +63,16 @@ metadata:
 #species in a community model, number of age/size classes in a population model,
 #number of pools in a biogeochemical model.
     initial_conditions:
-      status: absent #options: absent, present, data_driven, propagates, assimilates
-      complexity: 0 #How many models states need initial conditions
+      status: assimilates #options: absent, present, data_driven, propagates, assimilates
+      complexity: 1 #How many models states need initial conditions
       propagation:
         type: ensemble #How does your model propogate initial conditions (ensemble or MCMC is most common)
-        size: 2000. #number of ensemble or MCMC members
+        size: 31 #number of ensemble or MCMC members
       #Leave everything below blank  UNLESS status = assimilates
       assimilation:
-        type: refit #description of assimilation method
-        reference: "NA" #reference for assimilation method
-        complexity: 4 #number of states that are updated with assimilation
+        type: EnKF #description of assimilation method
+        reference: https://aslopubs.onlinelibrary.wiley.com/doi/full/10.1002/lom3.10302 #reference for assimilation method
+        complexity: 1 #number of states that are updated with assimilation
 #
 #DRIVERS
 #uncertainty in model drivers, covariates, and exogenous scenarios (X).
@@ -85,17 +85,17 @@ metadata:
 #model, this would be the number of climate inputs (temperature, precip, solar
 #radiation, etc.).
     drivers:
-      status: present #options: absent, present, data_driven, propagates, assimilates
+      status: propogates #options: absent, present, data_driven, propagates, assimilates
       complexity: 1 #How many drivers are used?
       #Leave everything below blank if status = absent, present, or data_driven
       propagation:
         type: ensemble #How does your model propogate driver (ensemble or MCMC is most common)
         size: 31 #number of ensemble or MCMC members
       #Leave everything below blank  UNLESS status = assimilates
-      assimilation:
-        type: refit #description of assimilation method
-        reference: "none" #reference for assimilation method
-        complexity: 4 #number of states that are updated with assimilation
+      # assimilation:
+      #   type: EnKF #description of assimilation method
+      #   reference: https://aslopubs.onlinelibrary.wiley.com/doi/full/10.1002/lom3.10302 #reference for assimilation method
+      #   complexity:  #number of states that are updated with assimilation
 #
 #PARAMETERS
 #Uncertainty in model parameters (). For most ecological processes the parameters
@@ -108,14 +108,14 @@ metadata:
       status: present #options: absent, present, data_driven, propagates, assimilates
       complexity: 2
       #Leave everything below blank if status = absent, present, or data_driven
-      propagation:
-        type: ensemble #how does your model propogate parameter uncertainity?
-        size: 2000
-      #Leave everything below blank  UNLESS status = assimilates
-      assimilation:
-        type: refit
-        reference: "none"
-        complexity: 4
+      # propagation:
+      #   type: ensemble #how does your model propogate parameter uncertainity?
+      #   size: 2000
+      # #Leave everything below blank  UNLESS status = assimilates
+      # assimilation:
+      #   type: refit
+      #   reference: "none"
+      #   complexity: 4
 #
 #RANDOM EFFECTS
 #Unexplained variability and heterogeneity in model parameters (). Hierarchical
@@ -135,16 +135,16 @@ metadata:
 #
     random_effects:
       status: absent #options: absent, present, data_driven, propagates, assimilates
-      complexity: 2
-      #Leave everything below blank if status = absent, present, or data_driven
-      propagation:
-        type: ensemble #How does your model propogate random effects (ensemble or MCMC is most common)
-        size: 2000 #number of ensemble or MCMC members
-      #Leave everything below blank  UNLESS status = assimilates
-      assimilation:
-        type: refit #description of assimilation method
-        reference: "none" #reference for assimilation method
-        complexity: 4 #number of states that are updated with assimilation
+      # complexity: 2
+      # #Leave everything below blank if status = absent, present, or data_driven
+      # propagation:
+      #   type: ensemble #How does your model propogate random effects (ensemble or MCMC is most common)
+      #   size: 2000 #number of ensemble or MCMC members
+      # #Leave everything below blank  UNLESS status = assimilates
+      # assimilation:
+      #   type: refit #description of assimilation method
+      #   reference: "none" #reference for assimilation method
+      #   complexity: 4 #number of states that are updated with assimilation
 #
 #PROCESS ERROR
 #Dynamic uncertainty in the process model () attributable to both model
@@ -157,18 +157,18 @@ metadata:
 #match the dimensionality of the initial_conditions unless there are state
 #variables where process error is not being estimated or propagated
     process_error:
-      status: absent #options: absent, present, data_driven, propagates, assimilates
-      complexity: 2 #Leave blank if status = absent
+      status: assimilates #options: absent, present, data_driven, propagates, assimilates
+      complexity: 1 #Leave blank if status = absent
       #Leave everything below blank if status = absent, present, or data_driven
       propagation:
         type: ensemble #How does your model propogate random effects uncertainty (ensemble or MCMC is most common)
-        size: 2000
+        size: 31
       #Leave everything below blank  UNLESS status = assimilates
       assimilation:
-        type: refit
-        reference: "none"
-        complexity: 4
-        covariance: FALSE #TRUE OR FALSE
+        type: EnKF
+        reference: https://aslopubs.onlinelibrary.wiley.com/doi/full/10.1002/lom3.10302
+        complexity: 1
+        covariance: TRUE #TRUE OR FALSE
         localization: FALSE
 #
 #OBSERVATION ERROR
@@ -185,16 +185,16 @@ metadata:
 #match the dimensionality of the initial_conditions unless there are state
 #variables where process error is not being estimated or propagated
     obs_error:
-      status: absent #options: absent, present, data_driven, propagates, assimilates
-      complexity: 2 #Leave blank if status = absent
+      status: data_driven #options: absent, present, data_driven, propagates, assimilates
+      complexity: 1 #Leave blank if status = absent
       #Leave everything below blank if status = absent, present, or data_driven
-      propagation:
-        type: ensemble #How does your model propogate observation error (ensemble or MCMC is most common)
-        size: 31. #number of ensemble or MCMC members
-      #Leave everything below blank  UNLESS status = assimilates
-      assimilation:
-        type: refit #description of assimilation method
-        reference: "none" #reference for assimilation method
-        complexity: 4 #number of states that are updated with assimilation
-        covariance: FALSE #TRUE OR FALSE
-        localization: FALSE
+      # propagation:
+      #   type: ensemble #How does your model propogate observation error (ensemble or MCMC is most common)
+      #   size: 31. #number of ensemble or MCMC members
+      # #Leave everything below blank  UNLESS status = assimilates
+      # assimilation:
+      #   type: refit #description of assimilation method
+      #   reference: "none" #reference for assimilation method
+      #   complexity: 4 #number of states that are updated with assimilation
+      #   covariance: FALSE #TRUE OR FALSE
+      #   localization: FALSE
